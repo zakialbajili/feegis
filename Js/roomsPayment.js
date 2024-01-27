@@ -1,3 +1,7 @@
+const userData = JSON.parse(localStorage.getItem('userData'))
+if(!userData){
+    window.location.href="login.html"
+}
 const cartItems = JSON.parse(localStorage.getItem('cartItems'));
 console.log(cartItems)
 let totalPrice;

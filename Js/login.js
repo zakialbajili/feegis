@@ -37,19 +37,19 @@ async function loginUser(){
     const loginPassword = document.getElementById('loginPassword').value;
     const response = await fetchDataUser(loginUsername,loginPassword)
     const {data} = response
-    if (!response) {
-        showDialog("Error", "No registration data found. Please register first.");
-        return;
-    }
     if (loginUsername === data.username && loginPassword === data.password) {
         showDialog("Success", "Login successful!");
         window.location.href = "home.html";
     } else {
         showDialog("Error", "Invalid username or password.");
     }
+    // if (!response) {
+    //     showDialog("Error", "No registration data found. Please register first.");
+    //     return;
+    // }
     console.log(data)
     localStorage.setItem('userData', JSON.stringify(data))
-    window.location.href = "home.html";
+    // window.location.href = "home.html";
 }
 
 // async function renderLoginUser(){

@@ -1,5 +1,8 @@
 const userData = JSON.parse(localStorage.getItem('userData'));
-console.log(userData)
+if(!userData){
+    window.location.href="login.html"
+}
+const token = userData.token
 if (userData && userData.username) {
     const userNameElement = document.getElementById('userName');
     userNameElement.textContent = userData.username;
@@ -13,12 +16,18 @@ const cart = [];
 
 productCategory.addEventListener('click', bookRoom);
 let result;
-const fetchData = async () => {
+const fetchData = async (token) => {
     try {
         // ... (seperti kode yang Anda berikan)
         const apiUrl = 'http://localhost:3000/rooms';
         // Menggunakan Fetch API dengan async/await
-        const response = await fetch(apiUrl);
+        const response = await fetch(apiUrl,{
+            method:'GET',
+            headers:{
+                'Authorization':'Bearer '+token
+            }
+
+        });
         // Memeriksa apakah responsenya berhasil (status kode 200 OK)
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
@@ -35,35 +44,32 @@ async function displayRooms() {
     const { data } = result
     const selectedCategory = categorySelect.value;
     const roomsInCategory = data[selectedCategory];
-    // console.log(roomsInCategory)
-
     if (roomsInCategory) {
         productCategory.innerHTML = roomsInCategory
             .map((room) => `
-                                    <div class="RoomCard">
-                                        <img class="RoomImage" src="images/room1.png" alt="room1">
-                                        <div class="RoomDetail">
-                                            <div class="RoomName">${room.name}</div>
-                                            <div class="RoomPrice">Price: Rp ${room.price}</div>
-                                            <div class="MaxOccupancy">Max Occupancy: ${room.maxOccupancy} person(s)</div>
-                                            <div class="Description">${room.description.replace(/\n/g, '<br>')}</div>
-                                            <button data-id="${room.id}" data-name="${room.name}" data-price="${room.price}" class="addCart">Add to Cart</button>
-                                        </div>
-                                    </div>
-                                    `
+                            <div class="RoomCard">
+                                <img class="RoomImage" src="images/room1.png" alt="room1">
+                                <div class="RoomDetail">
+                                    <div class="RoomName">${room.name}</div>
+                                    <div class="RoomPrice">Price: Rp ${room.price}</div>
+                                    <div class="MaxOccupancy">Max Occupancy: ${room.maxOccupancy} person(s)</div>
+                                    <div class="Description">${room.description.replace(/\n/g, '<br>')}</div>
+                                    <button data-id="${room.id}" data-name="${room.name}" data-price="${room.price}" class="addCart">Add to Cart</button>
+                                </div>
+                            </div>
+                            `
             )
             .join('');
     }
 }
 async function getData() {
-    await fetchData();
+    await fetchData(token);
     await displayRooms
 }
 getData();
 categorySelect.addEventListener('change', displayRooms);
 
 async function formatCurrency(amount) {
-    console.log(`ini amount: ${amount}`)
     const price = amount.toFixed(0);
     return price;
 }
@@ -73,7 +79,7 @@ async function bookRoom(e) {
         const idRooms = parseInt(e.target.getAttribute('data-id'));
         const name = e.target.getAttribute('data-name');
         const price = parseFloat(e.target.getAttribute('data-price'));
-        const item = { idRooms, name, price, quantity: 1 };
+        const item = { idRooms, name, price, quantity: 1,idUser:userData.id };
         const existingItem = cart.find((cartItem) => cartItem.idRooms === idRooms);
 
         if (existingItem) {
@@ -90,12 +96,7 @@ async function renderCart() {
         .map((item) => `<li>${item.name} - Rp ${item.price} x ${item.quantity} = Rp ${item.price * item.quantity}</li>`)
         .join('');
 
-    const numRooms = cart.reduce((num, item) => num + item.quantity, 0);
-    console.log(`ini numRooms: ${numRooms}`)
     const totalPrice = cart.reduce((total, item) => total + item.price * item.quantity, 0);
-    console.log(`ini totalPrice: ${totalPrice}`)
-
-    document.getElementById('totalPrice').textContent = await formatCurrency(totalPrice);
     document.getElementById('totalPrice').textContent = await formatCurrency(totalPrice);
     await displayRooms()
 }
@@ -115,6 +116,7 @@ const savedRoom = async () => {
         const response = await fetch(postUrl, {
             method: 'POST',
             headers: {
+                'Authorization':'Bearer '+token,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(cart)
@@ -126,9 +128,7 @@ const savedRoom = async () => {
         }
         // Mengambil data dalam format JSON
         responseSavedRoom = await response.json();
-        showDialog()
-        console.log(responseSavedRoom);
-        console.log(cart)
+        showDialog("Booking Rooms", "Are you sure to booking this room?")
         localStorage.setItem('cartItems', JSON.stringify(cart));
         window.location.href = 'saved.html';
     } catch (err) {

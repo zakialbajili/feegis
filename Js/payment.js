@@ -1,3 +1,7 @@
+const userData = JSON.parse(localStorage.getItem('userData'))
+if(!userData){
+    window.location.href="login.html"
+}
 var urlParams = new URLSearchParams(window.location.search);
 var paramValue = urlParams.get('roomId');
 let cartItems;
@@ -6,7 +10,12 @@ async function fetchData() {
         // ... (seperti kode yang Anda berikan)
         const getSaved = `http://localhost:3000/payment.html?roomId=${paramValue.toString()}`;
         // Menggunakan Fetch API dengan async/await
-        const response = await fetch(getSaved);
+        const response = await fetch(getSaved,{
+            method:'GET',
+            headers:{
+                'Authorization': `Bearer ${userData.token}`
+            }
+        });
         // Memeriksa apakah responsenya berhasil (status kode 200 OK)
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
@@ -58,6 +67,7 @@ const paymentRoom = async (id, totalPrice, discount, finalTotal, event) => {
             const response = await fetch(postUrl, {
                 method: 'POST',
                 headers: {
+                    'Authorization':`Bearer ${userData.token}`,
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
@@ -72,12 +82,12 @@ const paymentRoom = async (id, totalPrice, discount, finalTotal, event) => {
             }
             // Mengambil data dalam format JSON
             responseSavedRoom = await response.json();
-            console.log(responseSavedRoom);
         }
         const doPut =async ()=>{
             const response = await fetch(putUrl, {
                 method: 'PUT',
                 headers: {
+                    'Authorization':`Bearer ${userData.token}`,
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({"id":id,"status":"verified"})
@@ -88,9 +98,7 @@ const paymentRoom = async (id, totalPrice, discount, finalTotal, event) => {
             }
             // Mengambil data dalam format JSON
             responsePutSavedRoom = await response.json();
-            console.log(responsePutSavedRoom);
             showDialog("Thank you for Your Booking!", "Your receipt will be sent to your email.");
-            console.log("Items purchased:", cartItems);
             // window.location.href = "myBooking.html";
         }
         event.preventDefault();
@@ -105,9 +113,6 @@ const paymentRoom = async (id, totalPrice, discount, finalTotal, event) => {
 async function pagePayment() {
     try {
         await fetchData()
-        console.log(cartItems.data)
-        console.log(cartItems.data.price)
-        console.log(cartItems.data.quantity)
         const id =cartItems.data.id
         const price = cartItems.data.price
         const quantity = cartItems.data.quantity
@@ -117,10 +122,6 @@ async function pagePayment() {
         await renderPayment(totalPrice, discount, finalTotal)
         const payButton = document.getElementById('payButton');
         payButton.addEventListener('click', (event) => paymentRoom(id,totalPrice, discount, finalTotal, event));
-        console.log(responseSavedRoom)
-        console.log(`nilai respon post API: ${responseSavedRoom}`)
-        console.log(`nilai diskon: ${discount}`)
-        console.log(`nilai totalPrice: ${totalPrice}`)
         // await calculatePrice()
     } catch (err) {
         console.error(`error render payment:${err}`)
@@ -131,12 +132,11 @@ pagePayment()
 function showDialog(title, message) {
     const result = confirm(title + "\n" + message);
     if (result) {
-        window.location.href = "home.html";
+        window.location.href = "saved.html";
     }
 }
 
 function buyItems() {
     showDialog("Thank you for Your Booking!", "Your receipt will be sent to your email.");
-    console.log("Items purchased:", cartItems);
     window.location.href = "myBooking.html";
 }

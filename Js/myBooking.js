@@ -1,4 +1,7 @@
 const userData = JSON.parse(localStorage.getItem('userData'));
+if(!userData){
+    window.location.href="login.html"
+}
 if (userData && userData.username) {
     const userNameElement = document.getElementById('userName');
     userNameElement.textContent = userData.username;
@@ -10,7 +13,12 @@ const fetchData = async () => {
         // ... (seperti kode yang Anda berikan)
         const getBooking = 'http://localhost:3000/myBooking';
         // Menggunakan Fetch API dengan async/await
-        const response = await fetch(getBooking);
+        const response = await fetch(getBooking,{
+            method:'GET',
+            headers:{
+                'Authorization':`Bearer ${userData.token}`
+            }
+        });
         // Memeriksa apakah responsenya berhasil (status kode 200 OK)
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
@@ -44,36 +52,41 @@ async function renderBookingHistory(){
         });
     }
 }
-let responseSavedRoom
-async function actionCancelBooking(e, event) {
+function showDialog(title, message) {
+    const result = confirm(title + "\n" + message);
+    if (result) {
+        window.location.href = "myBooking.html";
+    }
+}
+let responseCancelResponse
+const doCancelBooking = async (idCancel) => {
+    // Menggunakan Fetch API dengan async/await
+    const cancelUrl= "http://localhost:3000/cancelBooking"
+    const response = await fetch(cancelUrl, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${userData.token}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            "id":idCancel
+        })
+    })
+    // Memeriksa apakah responsenya berhasil (status kode 200 OK)
+    if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    // Mengambil data dalam format JSON
+    responseCancelResponse = await response.json();
+    showDialog("DELETE ROOM", "Are you sure to delete this room?");
+}
+async function actionCancelBooking(e) {
     try{
         if (e.target.classList.contains('CancelButton')) {
             const id = e.target.getAttribute('data-id');
                 // window.location.reload();
-            const idCancel = {"id":id}
-            const cancelUrl= "http://localhost:3000/cancelBooking"
-            const doCancelBooking = async () => {
-                // Menggunakan Fetch API dengan async/await
-                const response = await fetch(cancelUrl, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({idCancel})
-                })
-                // Memeriksa apakah responsenya berhasil (status kode 200 OK)
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                // Mengambil data dalam format JSON
-                responseSavedRoom = await response.json();
-                console.log(responseSavedRoom);
-                showDialog("Thank you for Your Booking!", "Your receipt will be sent to your email.");
-                console.log("Items purchased:", cartItems);
-                // window.location.href = "myBooking.html";
-            }
-        event.preventDefault();
-        await doCancelBooking();
+            e.preventDefault();
+            await doCancelBooking(id);
         }
         // window.location.href = 'roomsPayment.html';
     } catch (err) {
@@ -83,7 +96,6 @@ async function actionCancelBooking(e, event) {
 }
 async function myBookingPage(){
     await fetchData()
-    console.log(bookedItems.data)
     await renderBookingHistory()
     const bookingHistory = document.getElementById('bookingHistory')
     bookingHistory.addEventListener('click',(event)=> actionCancelBooking(event));

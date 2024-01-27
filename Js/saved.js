@@ -1,4 +1,7 @@
 const userData = JSON.parse(localStorage.getItem('userData'));
+if(!userData){
+    window.location.href="login.html"
+}
 if (userData && userData.username) {
     const userNameElement = document.getElementById('userName');
     userNameElement.textContent = userData.username;
@@ -10,7 +13,12 @@ const fetchData = async () => {
         // ... (seperti kode yang Anda berikan)
         const getSaved = 'http://localhost:3000/saved';
         // Menggunakan Fetch API dengan async/await
-        const response = await fetch(getSaved);
+        const response = await fetch(getSaved,{
+            method:'GET',
+            headers:{
+                'Authorization':`Bearer ${userData.token}`
+            }
+        });
         // Memeriksa apakah responsenya berhasil (status kode 200 OK)
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
@@ -37,7 +45,7 @@ async function renderSaved(){
             </div>
         `).join('');
     } else {
-        savedRoomsContainer.innerHTML = '<div class="NoSavedRooms">No saved rooms</div>';
+        savedRoomsContainer.innerHTML = '<div class="NoSavedRooms" style="margin-left:45vw;">No saved rooms</div>';
     }   
 }
 async function getData() {
@@ -51,5 +59,4 @@ function redirectToPayment(roomId) {
     
     // localStorage.setItem('cartItems',JSON.stringify(getIdRoom))
     window.location.href = `payment.html?roomId=${roomId}`;
-    console.log(`Redirect to payment for room with ID: ${roomId}`);
 }
