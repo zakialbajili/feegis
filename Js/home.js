@@ -1,50 +1,41 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const userData = JSON.parse(localStorage.getItem('registrationData'));
 
+
+// document.addEventListener('DOMContentLoaded', function () {
+    // const userData = JSON.parse(localStorage.getItem('registrationData'));
+    const userData = JSON.parse(localStorage.getItem('userData'))
     const userNameElement = document.getElementById('userName');
     const profileIcon = document.getElementById('profileIcon');
     const logoutOptions = document.getElementById('logoutOptions');
     const loginButton = document.getElementById('loginButton');
     const logoutButton = document.getElementById('logoutButton');
+    userNameElement.textContent = userData.username
 
 
-    if (userData && userData.name) {
-        userNameElement.textContent = userData.username;
+    // if (userData) {
+    //     console.log(userData.username)
+    //     userNameElement.textContent = userData.username;
 
-        profileIcon.addEventListener('click', function() {
-            logoutOptions.classList.toggle('show');
-        });
+    //     profileIcon.addEventListener('click', function () {
+    //         logoutOptions.classList.toggle('show');
+    //     });
 
-        if (logoutButton) {
-            logoutButton.style.display = 'block';
+    //     if (logoutButton) {
+    //         logoutButton.style.display = 'block';
 
-            logoutButton.addEventListener('click', function() {
-                window.location.href = 'login.html';
-            });
-        }
-        if (loginButton) {
-            loginButton.style.display = 'none';
-        }
-    } else {
-        userNameElement.textContent = 'Guest';
+    //         logoutButton.addEventListener('click', function () {
+    //             window.location.href = 'login.html';
+    //         });
+    //     }
+    //     if (loginButton) {
+    //         loginButton.style.display = 'none';
+    //     }
+    // } 
 
-        if (loginButton) {
-            loginButton.style.display = 'block';
-
-            loginButton.addEventListener('click', function() {
-                window.location.href = 'login.html';
-            });
-        }
-        if (logoutButton) {
-            logoutButton.style.display = 'none';
-        }
-    }
-
-    window.addEventListener('scroll', function() {
-        if (window.scrollY > 0) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-    });
-});
+    // window.addEventListener('scroll', function() {
+    //     if (window.scrollY > 0) {
+    //         navbar.classList.add('scrolled');
+    //     } else {
+    //         navbar.classList.remove('scrolled');
+    //     }
+    // });
+// });

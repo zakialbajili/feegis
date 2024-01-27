@@ -1,17 +1,33 @@
-const userData = JSON.parse(localStorage.getItem('registrationData'));
-if (userData && userData.name) {
+const userData = JSON.parse(localStorage.getItem('userData'));
+if (userData && userData.username) {
     const userNameElement = document.getElementById('userName');
     userNameElement.textContent = userData.username;
-}
-document.addEventListener('DOMContentLoaded', function() {
-    const savedCartItems = JSON.parse(localStorage.getItem('savedItems'));
-
-    const savedRoomsContainer = document.getElementById('savedRooms');
-
-    if (savedCartItems && savedCartItems.length > 0) {
-        savedRoomsContainer.innerHTML = savedCartItems.map((item) => `
+}    
+const savedRoomsContainer = document.getElementById('savedRooms');
+let savedCartItems;
+const fetchData = async () => {
+    try {
+        // ... (seperti kode yang Anda berikan)
+        const getSaved = 'http://localhost:3000/saved';
+        // Menggunakan Fetch API dengan async/await
+        const response = await fetch(getSaved);
+        // Memeriksa apakah responsenya berhasil (status kode 200 OK)
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        // Mengambil data dalam format JSON
+        const {data} = await response.json();
+        savedCartItems = {data}
+    } catch (err) {
+        // ...
+        console.log(err)
+    }
+};
+async function renderSaved(){
+    if (savedCartItems && savedCartItems.data.length > 0) {
+        savedRoomsContainer.innerHTML = savedCartItems.data.map((item) => `
             <div class="SavedRoomCard">
-                <img class="SavedRoomImage" src="images/${item.id}.png" alt="${item.name}">
+                <img class="SavedRoomImage" src="images/room1.png" alt="${item.name}">
                 <div class="SavedRoomDetail">
                     <div class="SavedRoomName">${item.name}</div>
                     <div class="SavedRoomPrice">Price: Rp ${item.price}</div>
@@ -22,10 +38,18 @@ document.addEventListener('DOMContentLoaded', function() {
         `).join('');
     } else {
         savedRoomsContainer.innerHTML = '<div class="NoSavedRooms">No saved rooms</div>';
-    }
-});
+    }   
+}
+async function getData() {
+    await fetchData();
+    await renderSaved();
+}
+getData();
+
 
 function redirectToPayment(roomId) {
-    window.location.href = 'payment.html';
+    
+    // localStorage.setItem('cartItems',JSON.stringify(getIdRoom))
+    window.location.href = `payment.html?roomId=${roomId}`;
     console.log(`Redirect to payment for room with ID: ${roomId}`);
 }

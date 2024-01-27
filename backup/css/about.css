@@ -1,0 +1,139 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Galdeano-Regular', sans-serif;
+}
+
+
+.Navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(23, 16, 9);
+    padding: 20px;
+}
+
+.Logo {
+    margin-left: 40px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+li {
+    margin: 0 20px;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+a.active {
+    color: rgb(192, 138, 20);
+}
+
+.ProfileInfo {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-right: 40px;
+    color: #fff;
+    font-size: 12px;
+}
+
+.ProfileIcon {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+
+.aboutFrame {
+    margin-top: 20px;
+    background-color: #f8fff8;
+    padding-left: 40px;
+}
+
+.aboutContent {
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+}
+
+.aboutImage {
+    flex: 1;
+    padding: 10px;
+    position: relative;
+}
+
+.aboutImage img {
+    max-width: 100%;
+    height: auto;
+    margin-left: 90px;
+}
+
+.aboutText {
+    flex: 1;
+    padding: 10px;
+}
+
+h2 {
+    color: #937831;
+    font-size: 32px;
+    margin-bottom: 0;
+    font-family: 'Galdeano-Regular', sans-serif;
+}
+
+p {
+    font-size: 16px;
+    line-height: 1.5;
+    font-family: 'Galdeano-Regular', sans-serif;
+    opacity: 70%;
+    text-align: justify;
+}
+
+
+.Sponsor {
+    background: #333;
+    padding-bottom: 20px;
+}
+
+.Footer {
+    background-color: #000000;
+    color: #fff;
+    text-align: center;
+    padding: 5px;
+    padding-bottom: 5px;
+}
+
+.FooterContent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.SocialIcons {
+    text-align: center; 
+    margin-top: 10px;
+}
+
+.SocialIcons a {
+    text-decoration: none;
+    color: #fff;
+    margin: 0 30px;
+}
+
+.CopyrightText {
+    font-size: 12px;
+    font-style: italic;
+    margin-top: 30px;
+}
