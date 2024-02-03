@@ -11,7 +11,7 @@ let savedCartItems;
 const fetchData = async () => {
     try {
         // ... (seperti kode yang Anda berikan)
-        const getSaved = 'http://localhost:3000/saved';
+        const getSaved = 'https://be2surabaya9-dot-befitoutfit.et.r.appspot.com/saved';
         // Menggunakan Fetch API dengan async/await
         const response = await fetch(getSaved,{
             method:'GET',

@@ -1,6 +1,6 @@
 async function postRegisData(name, email, username, password){
     try{
-        const regisUrl = 'http://localhost:3000/registrasi'
+        const regisUrl = 'https://be2surabaya9-dot-befitoutfit.et.r.appspot.com/registrasi'
         const response =await fetch(regisUrl,{
             method:'POST',
             headers:{

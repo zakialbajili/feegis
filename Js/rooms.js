@@ -19,7 +19,7 @@ let result;
 const fetchData = async (token) => {
     try {
         // ... (seperti kode yang Anda berikan)
-        const apiUrl = 'http://localhost:3000/rooms';
+        const apiUrl = 'https://be2surabaya9-dot-befitoutfit.et.r.appspot.com/rooms';
         // Menggunakan Fetch API dengan async/await
         const response = await fetch(apiUrl,{
             method:'GET',
@@ -111,7 +111,7 @@ let responseSavedRoom;
 const savedRoom = async () => {
     try {
         // ... (seperti kode yang Anda berikan)
-        const postUrl = `http://localhost:3000/saved`;
+        const postUrl = `https://be2surabaya9-dot-befitoutfit.et.r.appspot.com/saved`;
         // Menggunakan Fetch API dengan async/await
         const response = await fetch(postUrl, {
             method: 'POST',

@@ -8,7 +8,7 @@ let cartItems;
 async function fetchData() {
     try {
         // ... (seperti kode yang Anda berikan)
-        const getSaved = `http://localhost:3000/payment.html?roomId=${paramValue.toString()}`;
+        const getSaved = `https://be2surabaya9-dot-befitoutfit.et.r.appspot.com/payment.html?roomId=${paramValue.toString()}`;
         // Menggunakan Fetch API dengan async/await
         const response = await fetch(getSaved,{
             method:'GET',
@@ -60,8 +60,8 @@ let responsePutSavedRoom;
 const paymentRoom = async (id, totalPrice, discount, finalTotal, event) => {
     try {
         // ... (seperti kode yang Anda berikan)
-        const putUrl = `http://localhost:3000/savedPayment`;
-        const postUrl = `http://localhost:3000/payment`;
+        const putUrl = `https://be2surabaya9-dot-befitoutfit.et.r.appspot.com/savedPayment`;
+        const postUrl = `https://be2surabaya9-dot-befitoutfit.et.r.appspot.com/payment`;
         const doPost = async () => {
             // Menggunakan Fetch API dengan async/await
             const response = await fetch(postUrl, {

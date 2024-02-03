@@ -7,11 +7,12 @@ if (userData && userData.username) {
     userNameElement.textContent = userData.username;
 }
 
+
 let bookedItems;
 const fetchData = async () => {
     try {
         // ... (seperti kode yang Anda berikan)
-        const getBooking = 'http://localhost:3000/myBooking';
+        const getBooking = 'https://be2surabaya9-dot-befitoutfit.et.r.appspot.com/myBooking';
         // Menggunakan Fetch API dengan async/await
         const response = await fetch(getBooking,{
             method:'GET',
@@ -61,7 +62,7 @@ function showDialog(title, message) {
 let responseCancelResponse
 const doCancelBooking = async (idCancel) => {
     // Menggunakan Fetch API dengan async/await
-    const cancelUrl= "http://localhost:3000/cancelBooking"
+    const cancelUrl= "https://be2surabaya9-dot-befitoutfit.et.r.appspot.com/cancelBooking"
     const response = await fetch(cancelUrl, {
         method: 'DELETE',
         headers: {

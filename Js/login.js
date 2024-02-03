@@ -5,7 +5,7 @@ function showDialog(title, message) {
 }
 async function fetchDataUser(loginUsername, loginPassword){
     try{
-        const fetchUrl = "http://localhost:3000/login"
+        const fetchUrl = "https://be2surabaya9-dot-befitoutfit.et.r.appspot.com/login"
         const response =await fetch(fetchUrl,{
             method: 'POST',
             headers: {

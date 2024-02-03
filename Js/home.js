@@ -14,13 +14,12 @@
     userNameElement.textContent = userData.username
 
 
-    // if (userData) {
-    //     console.log(userData.username)
-    //     userNameElement.textContent = userData.username;
+    if (userData) {
+        userNameElement.textContent = userData.username;
 
-    //     profileIcon.addEventListener('click', function () {
-    //         logoutOptions.classList.toggle('show');
-    //     });
+        profileIcon.addEventListener('click', function () {
+            logoutOptions.classList.toggle('show');
+        });
 
         if (logoutButton) {
             logoutButton.style.display = 'block';
@@ -33,7 +32,7 @@
         if (loginButton) {
             loginButton.style.display = 'none';
         }
-    // } 
+    } 
 
     // window.addEventListener('scroll', function() {
     //     if (window.scrollY > 0) {

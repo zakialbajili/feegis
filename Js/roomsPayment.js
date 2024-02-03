@@ -39,7 +39,7 @@ let responseSavedRoom;
 const paymentRoom = async (totalPrice, discount, finalTotal, event) => {
     try {
         // ... (seperti kode yang Anda berikan)
-        const postPaymentUrl = `http://localhost:3000/payment`;
+        const postPaymentUrl = `https://be2surabaya9-dot-befitoutfit.et.r.appspot.com/payment`;
         const doPostPayment = async () => {
             // Menggunakan Fetch API dengan async/await
             const response = await fetch(postPaymentUrl, {
