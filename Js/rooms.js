@@ -48,7 +48,7 @@ async function displayRooms() {
         productCategory.innerHTML = roomsInCategory
             .map((room) => `
                             <div class="RoomCard">
-                                <img class="RoomImage" src="images/room1.png" alt="room1">
+                                <img class="RoomImage" src="Images/room1.png" alt="room1">
                                 <div class="RoomDetail">
                                     <div class="RoomName">${room.name}</div>
                                     <div class="RoomPrice">Price: Rp ${room.price}</div>

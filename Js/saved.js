@@ -35,7 +35,7 @@ async function renderSaved(){
     if (savedCartItems && savedCartItems.data.length > 0) {
         savedRoomsContainer.innerHTML = savedCartItems.data.map((item) => `
             <div class="SavedRoomCard">
-                <img class="SavedRoomImage" src="images/room1.png" alt="${item.name}">
+                <img class="SavedRoomImage" src="Images/room1.png" alt="${item.name}">
                 <div class="SavedRoomDetail">
                     <div class="SavedRoomName">${item.name}</div>
                     <div class="SavedRoomPrice">Price: Rp ${item.price}</div>
